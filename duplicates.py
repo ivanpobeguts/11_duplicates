@@ -15,11 +15,11 @@ def get_files_info(search_dir):
 
 
 def print_duplicated_files(files_info_dict):
-    for file, path in files_info_dict.items():
-        if len(path) > 1:
-            print(file[0])
-            for filename in path:
-                print('--', filename)
+    for (file_name, size), paths in files_info_dict.items():
+        if len(paths) > 1:
+            print(file_name)
+            for path in paths:
+                print('--', path)
             print('\n')
 
 
@@ -30,9 +30,9 @@ def get_parser():
 
 
 if __name__ == '__main__':
-    try:
-        args = get_parser().parse_args()
+    args = get_parser().parse_args()
+    if os.path.isdir(args.search_dir):
         files_info_dict = get_files_info(args.search_dir)
         print_duplicated_files(files_info_dict)
-    except FileNotFoundError:
-        print('File not found.')
+    else:
+        print('Specified path does not lead to the directory.')
